@@ -4,12 +4,14 @@ import com.funsoft.cabinet.model.Client;
 import com.funsoft.cabinet.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -28,9 +30,15 @@ public class PatientRest {
     }
 
     @RequestMapping(value = "/clients/save",method = RequestMethod.POST)
-    public ModelAndView save(@ModelAttribute("FormClient") Client client){
-        agent.saveorupdate(client);
-        return new ModelAndView("redirect:/clients/list");
+    public ModelAndView save(@Valid @ModelAttribute("FormClient") Client client, BindingResult res){
+        if(res.hasFieldErrors()){
+
+            return new ModelAndView("add_client");
+        }
+        else {
+            agent.saveorupdate(client);
+            return new ModelAndView("redirect:/clients/list");
+        }
     }
 
     @RequestMapping(value = "/clients/list",method = RequestMethod.GET)
@@ -49,5 +57,14 @@ public class PatientRest {
         agent.delete(id);
         return new ModelAndView("redirect:/clients/list");
 
+    }
+
+    @RequestMapping(value = "/clients/update/{id}",method = RequestMethod.GET)
+    public ModelAndView update(@PathVariable("id") long id){
+        Client c = agent.getById(id);
+        ModelAndView rep = new ModelAndView();
+        rep.addObject("FormClient",c);
+        rep.setViewName("add_client");
+        return rep;
     }
 }

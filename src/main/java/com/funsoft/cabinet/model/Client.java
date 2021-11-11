@@ -1,9 +1,7 @@
 package com.funsoft.cabinet.model;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 
 import java.util.List;
 
@@ -14,6 +12,8 @@ public class Client {
     @GeneratedValue(strategy = GenerationType.AUTO) // auto-increment
     private long id;
 
+    @NotNull
+    @NotBlank
     @NotEmpty
     @Size(min=3,max=10,message = "la taille doit être entre 3 et 10")
     @Pattern(regexp = "[a-zA-Z]+",message="le nom ne doit que des alphabets")
