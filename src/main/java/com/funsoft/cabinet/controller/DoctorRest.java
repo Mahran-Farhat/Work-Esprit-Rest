@@ -1,6 +1,7 @@
 package com.funsoft.cabinet.controller;
 
 import com.funsoft.cabinet.model.Medecin;
+import com.funsoft.cabinet.model.Recherche;
 import com.funsoft.cabinet.service.MedecinService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -56,6 +57,48 @@ public class DoctorRest {
         rep.addObject("MedecinForm",med);
         rep.setViewName("add_medecin");
         return rep;
+    }
+
+    @RequestMapping(value = "/doctors/recherche",method = RequestMethod.GET)
+    public ModelAndView form_recherche(){
+        ModelAndView rep = new ModelAndView();
+        Recherche res = new Recherche();
+        rep.addObject("resForm",res);
+        rep.setViewName("recherche");
+        return rep;
+    }
+
+    @RequestMapping(value = "/doctors/rechspec",method = RequestMethod.POST)
+    public ModelAndView recherche_spec(@ModelAttribute("resForm") Recherche res){
+
+        ModelAndView rep = new ModelAndView();
+        List<Medecin> medecins = agent.recherche_specialite(res.getSpecialite());
+        res.setMedecins(medecins);
+        rep.addObject("resForm",res);
+        rep.setViewName("recherche");
+        return rep;
+
+    }
+
+    @RequestMapping(value = "/doctors/avancee",method = RequestMethod.GET)
+    public ModelAndView form_recherche_avancee(){
+        ModelAndView rep = new ModelAndView();
+        Recherche res = new Recherche();
+        rep.addObject("resForm",res);
+        rep.setViewName("recherche_avancee");
+        return rep;
+    }
+
+    @RequestMapping(value = "/doctors/rechavancee",method = RequestMethod.POST)
+    public ModelAndView recherche_avancee(@ModelAttribute("resForm") Recherche res){
+
+        ModelAndView rep = new ModelAndView();
+        List<Medecin> medecins = agent.recherche_avancee(res.getSpecialite(),"%"+res.getNom()+"%");
+        res.setMedecins(medecins);
+        rep.addObject("resForm",res);
+        rep.setViewName("recherche_avancee");
+        return rep;
+
     }
 
 }

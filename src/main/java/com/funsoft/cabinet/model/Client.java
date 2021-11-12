@@ -9,7 +9,7 @@ import java.util.List;
 @Table(name="clients") // pour renomer la table
 public class Client {
     @Id // Primary key
-    @GeneratedValue(strategy = GenerationType.AUTO) // auto-increment
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // auto-increment
     private long id;
 
     @NotNull
