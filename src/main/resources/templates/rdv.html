@@ -33,14 +33,14 @@
                 <div class="form-group">
                     <label for="medecin">Medecin</label>
                     <select class="form-control" id="medecin" th:field="*{medecin.id}">
-                        <option th:each="m : ${medeins}"  value="*{m.id}" th:utext="*{m.nom}+' '+*{m.prenom}" ></option>
+                        <option th:each="m : ${medeins}"  th:value="${m.id}" th:utext="${m.nom}+' '+${m.prenom}" ></option>
                     </select>
                 </div>
 
                 <div class="form-group">
                     <label for="medecin">Medecin</label>
                     <select class="form-control" id="client" th:field="*{client.id}">
-                        <option th:each="m : ${clients}"  value="*{m.id}" th:utext="*{m.nom}+' '+*{m.prenom}" ></option>
+                        <option th:each="m : ${clients}"  th:value="${m.id}" th:utext="${m.nom}+' '+${m.prenom}" ></option>
                     </select>
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
