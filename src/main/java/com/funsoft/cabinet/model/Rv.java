@@ -1,6 +1,7 @@
 package com.funsoft.cabinet.model;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name="rv")
@@ -8,7 +9,11 @@ public class Rv {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-    private String jour;
+
+    @Transient
+    private String sjour;
+
+    private LocalDateTime jour;
 
     @JoinColumn(name="ID_Medecin",referencedColumnName = "id")
     @ManyToOne(optional = false)
@@ -31,11 +36,11 @@ public class Rv {
         this.id = id;
     }
 
-    public String getJour() {
+    public LocalDateTime getJour() {
         return jour;
     }
 
-    public void setJour(String jour) {
+    public void setJour(LocalDateTime jour) {
         this.jour = jour;
     }
 
@@ -53,5 +58,13 @@ public class Rv {
 
     public void setClient(Client client) {
         this.client = client;
+    }
+
+    public String getSjour() {
+        return sjour;
+    }
+
+    public void setSjour(String sjour) {
+        this.sjour = sjour;
     }
 }
