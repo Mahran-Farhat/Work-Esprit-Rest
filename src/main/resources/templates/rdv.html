@@ -33,7 +33,7 @@
                 <div class="form-group">
                     <label for="medecin">Medecin</label>
                     <select class="form-control" id="medecin" th:field="*{medecin.id}">
-                        <option th:each="m : ${medeins}"  th:value="${m.id}" th:utext="${m.nom}+' '+${m.prenom}" ></option>
+                        <option th:each="m : ${medecins}"  th:value="${m.id}" th:utext="${m.nom}+' '+${m.prenom}" ></option>
                     </select>
                 </div>
 

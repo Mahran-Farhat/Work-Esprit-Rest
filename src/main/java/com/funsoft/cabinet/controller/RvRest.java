@@ -9,10 +9,13 @@ import com.funsoft.cabinet.service.ClientService;
 import com.funsoft.cabinet.service.MedecinService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Controller
@@ -40,4 +43,19 @@ public class RvRest {
         return response;
     }
 
+    @RequestMapping(value = "/rdvs/save",method = RequestMethod.POST)
+    public ModelAndView save(@ModelAttribute("RdvForm") Rv rdv){
+        Medecin med = agentmed.getById(rdv.getMedecin().getId());
+        rdv.setMedecin(med);
+        Client client = agentcl.getById(rdv.getClient().getId());
+        rdv.setClient(client);
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        LocalDateTime date = LocalDateTime.parse(rdv.getSjour().replace("T"," "), formatter);
+        rdv.setJour(date);
+
+        agent.save(rdv);
+         return new ModelAndView("redirect:/");
+
+    }
 }
