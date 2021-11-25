@@ -61,6 +61,8 @@ public class Rv {
     }
 
     public String getSjour() {
+        if(jour !=null)
+        this.sjour = this.jour.toString().replace("T"," ");
         return sjour;
     }
 

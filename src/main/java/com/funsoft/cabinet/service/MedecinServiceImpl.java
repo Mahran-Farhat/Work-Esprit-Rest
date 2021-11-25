@@ -1,6 +1,7 @@
 package com.funsoft.cabinet.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.funsoft.cabinet.model.Medecin;
 import com.funsoft.cabinet.repository.MedecinRepository;
@@ -21,9 +22,9 @@ public class MedecinServiceImpl implements MedecinService{
     }
 
     @Override
-    public Medecin getById(long id) {
+    public Optional<Medecin> getById(long id) {
 
-        return agent.findById(id).get();
+        return agent.findById(id);
     }
 
     @Override

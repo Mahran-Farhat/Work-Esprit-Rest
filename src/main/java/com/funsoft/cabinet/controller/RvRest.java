@@ -7,11 +7,10 @@ import com.funsoft.cabinet.model.Rv;
 import com.funsoft.cabinet.repository.RvRepository;
 import com.funsoft.cabinet.service.ClientService;
 import com.funsoft.cabinet.service.MedecinService;
+import org.dom4j.rule.Mode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.time.LocalDateTime;
@@ -58,4 +57,38 @@ public class RvRest {
          return new ModelAndView("redirect:/");
 
     }
+
+    @RequestMapping(value = "/rdvs/list",method = RequestMethod.GET)
+    public ModelAndView list_rdvs(){
+        List<Rv> rdvs = (List<Rv>)agent.findAll();
+        ModelAndView response = new ModelAndView();
+        response.addObject("rdvs",rdvs);
+        response.setViewName("rdvs");
+        return response;
+    }
+
+    @RequestMapping(value = "/rdvs/delete/{id}",method = RequestMethod.GET)
+    public ModelAndView delete_rdv(@PathVariable("id") long id){
+        agent.deleteById(id);
+        List<Rv> rdvs = (List<Rv>)agent.findAll();
+        ModelAndView response = new ModelAndView();
+        response.addObject("rdvs",rdvs);
+        response.setViewName("rdvs");
+        return response;
+
+    }
+
+    @RequestMapping(value = "/rdvs/update/{id}",method = RequestMethod.GET)
+    public ModelAndView update_rdv(@PathVariable("id") long id){
+        Rv rdv = agent.findById(id).get();
+        List<Client> clients = agentcl.consulte();
+        List<Medecin> medecins = agentmed.consulte();
+        ModelAndView response = new ModelAndView();
+        response.addObject("RdvForm",rdv);
+        response.addObject("clients",clients);
+        response.addObject("medecins",medecins);
+        response.setViewName("rdv");
+        return response;
+    }
+
 }
