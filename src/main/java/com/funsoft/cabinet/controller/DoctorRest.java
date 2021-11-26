@@ -45,14 +45,22 @@ public class DoctorRest {
     }
 
     @DeleteMapping("/medecins/{id}")
-    public String delete_medecin(@PathVariable("id") long id){
+    public String delete_medecin(@PathVariable("id") long id) throws ResourceNotFound{
+
+        Medecin medecin = agent.getById(id).orElseThrow(
+                ()-> new ResourceNotFound("Doctor not found for id : "+id)
+        );
         agent.delete(id);
         return "Deleted : True";
     }
 
     @PutMapping("/medecins/{id}")
-    public String update_medecin(@PathVariable("id") long id,@RequestBody Medecin medecin){
-        Medecin med = agent.getById(id).get();
+    public String update_medecin(@PathVariable("id") long id,@RequestBody Medecin medecin) throws ResourceNotFound{
+
+        Medecin med = agent.getById(id).orElseThrow(
+                ()-> new ResourceNotFound("Doctor not found for id : "+id)
+        );
+
         med.setNom(medecin.getNom());
         med.setPrenom(medecin.getPrenom());
         med.setSpecialite(medecin.getSpecialite());
